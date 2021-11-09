@@ -90,6 +90,13 @@ local function resize_client(c, direction)
 end
 
 
+local function floating_terminal(c)
+   -- awful.layout.set(awful.layout.suit.max)
+   awful.layout.set(awful.layout.suit.floating)
+   c:relative_move(350, 200, -700, -400)
+end
+
+
 -- raise focused client
 local function raise_client()
    if client.focus then
@@ -362,6 +369,11 @@ keys.globalkeys = gears.table.join(
    -- =========================================
    -- CLIENT RESIZING
    -- =========================================
+   awful.key({modkey, }, "b",
+      function(c)
+         floating_terminal(client.focus)
+      end
+   ),
 
    awful.key({modkey, "Control"}, "Down",
       function(c)

@@ -30,7 +30,7 @@ apps = {
    network_manager = "nm-connection-editor", -- recommended: nm-connection-editor
    power_manager = "", -- recommended: xfce4-power-manager
    terminal = "alacritty",
-   launcher = "rofi -normal-window -modi drun -show drun -theme " .. theme_config_dir .. "rofi.rasi",
+   launcher = "rofi -normal-window -modi drun -show drun -theme ~/.config/rofi/rofi.rasi",
    browser = "firefox",
    lock = "i3lock",
    --screenshot = "gnome-screenshot -f ~/Pictures/scrsht/scr_shot_$(date +%m-%d_%H%M%S).png",
@@ -48,7 +48,7 @@ network_interfaces = {
 
 -- List of apps to run on start-up
 local run_on_start_up = {
-   "picom --experimental-backends --config " .. theme_config_dir .. "picom.conf",
+   "picom --experimental-backends",
    "redshift",
    "unclutter",
    "xss-lock -l ~/.config/awesome/transfer-sleep-lock-generic-delay.sh",
