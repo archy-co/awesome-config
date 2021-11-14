@@ -42,7 +42,7 @@ function rules.create(clientkeys, clientbuttons)
       }
    else rofi_rule = {
          rule_any = {name = {"rofi"}},
-         properties = {maximized = true, floating = true, titlebars_enabled = false},
+         properties = {fullscreen = true, floating = true, titlebars_enabled = false},
       }
    end
 
@@ -106,6 +106,13 @@ function rules.create(clientkeys, clientbuttons)
                "Firefox"
             },
          }, properties = {switchtotag = true}
+      },
+
+      {
+         rule_any = {
+            class = { "psoc_creator.exe" },
+         },
+         properties = { titlebars_enabled = false }
       },
 
       -- Visualizer
