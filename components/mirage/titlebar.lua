@@ -23,7 +23,7 @@ local dpi = require("beautiful").xresources.apply_dpi
 -- Add a titlebar
 client.connect_signal("request::titlebars", function(c)
    local titlebar = awful.titlebar(c, {
-      size = dpi(30)
+      size = dpi(27)
    })
 
    titlebar: setup {
@@ -34,8 +34,15 @@ client.connect_signal("request::titlebars", function(c)
          wibox.layout.margin(awful.titlebar.widget.maximizedbutton(c), dpi(4), dpi(5), dpi(5), dpi(5)),
          layout = wibox.layout.fixed.horizontal
       },
+      {
+          -- align = "center",
+          {
+             align = 'center',
+             widget = awful.titlebar.widget.titlewidget(c),
+          },
+          layout = wibox.layout.flex.horizontal
+      },
       nil,
-      nil,
-      layout = wibox.layout.align.horizontal
+      layout = wibox.layout.stack
    }
 end)
