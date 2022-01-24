@@ -24,7 +24,7 @@ local dpi = require("beautiful").xresources.apply_dpi
 client.connect_signal("request::titlebars", function(c)
    local titlebar = awful.titlebar(c, {
       bg_normal = '#7700aa50',
-      bg_focus = '#8c006d60',
+      bg_focus = '#f4507f60',
       size = dpi(27)
    })
 

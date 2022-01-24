@@ -77,7 +77,8 @@ function rules.create(clientkeys, clientbuttons)
             name = {
                "Event Tester",
                "Steam Guard - Computer Authorization Required",
-               "zoom"
+               "zoom",
+               "Library",
             },
             role = {
                "pop-up",
@@ -89,13 +90,22 @@ function rules.create(clientkeys, clientbuttons)
          }, properties = {floating = true}
       },
 
+      {
+         rule_any = {
+            class = { "qtfungera" },
+         },
+         properties = { floating = true, width = 950, height = 750 }
+
+
+      },
+
       -- Fullscreen clients
       {
          rule_any = {
-            class = {
-               "Terraria.bin.x86",
+            name = {
+               "Media viewer",
             },
-         }, properties = {fullscreen = true}
+         }, properties = {maximized = true}
       },
 
       -- "Switch to tag"
@@ -103,9 +113,19 @@ function rules.create(clientkeys, clientbuttons)
       {
          rule_any = {
             class = {
-               "Firefox"
+               "firefox",
             },
-         }, properties = {switchtotag = true}
+         },
+         properties = {switchtotag = true},
+      },
+
+      {
+         rule_any = {
+            class = {
+               "Minecraft* 1.18.1",
+            },
+         },
+         properties = {ontop = true, fullscreen = true},
       },
 
       {

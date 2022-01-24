@@ -51,8 +51,9 @@ local run_on_start_up = {
    "picom --experimental-backends",
    -- "redshift",
    -- "unclutter",
-   "xset off",
-   "xss-lock -l ~/.config/awesome/transfer-sleep-lock-generic-delay.sh",
+   "xset s on",
+   "xset s 1800 1",
+   "xss-lock -n ~/.config/awesome/transfer-sleep-lock-generic-delay.sh",
    "setxkbmap -layout us,ua,ca -option grp:alt_shift_toggle",
    "batsignal -w 20 -c 11 -d 5 -b"
 }
@@ -98,8 +99,8 @@ awful.rules.rules = create_rules(keys.clientkeys, keys.clientbuttons)
 awful.layout.layouts = {
    awful.layout.suit.tile,
    awful.layout.suit.floating,
-   awful.layout.suit.max,
-   awful.layout.suit.magnifier,
+   --awful.layout.suit.max,
+   --awful.layout.suit.magnifier,
 
    --awful.layout.suit.tile.left,
    --awful.layout.suit.tile.bottom,

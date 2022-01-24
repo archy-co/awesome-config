@@ -45,7 +45,7 @@ left_panel.create = function(s)
       position = "left",
       height = s.geometry.height,
       width = beautiful.left_panel_width,
-      ontop = true,
+      ontop = false,
       visible = true,
       bg = beautiful.bg_dark,
       type = 'dock',
@@ -59,15 +59,15 @@ left_panel.create = function(s)
    panel:setup {
       expand = "none",
       layout = wibox.layout.align.vertical,
-      wibox.layout.margin(require("widgets.layout-box"), dpi(13), dpi(13), dpi(13), dpi(13)),
+      wibox.layout.margin(require("widgets.layout-box"), dpi(13), dpi(13), dpi(33), dpi(13)),
       {
          layout = wibox.layout.fixed.vertical,
-         wibox.layout.margin(tag_list.create(s), dpi(5), dpi(5), 0, 0)
+         wibox.layout.margin(tag_list.create(s), dpi(8), dpi(8), 0, 0)
       },
       nil
    }
 
-  
+
    -- ===================================================================
    -- Functionality
    -- ===================================================================
@@ -76,7 +76,11 @@ left_panel.create = function(s)
    -- hide panel when client is fullscreen
    local function change_panel_visibility(client)
       if client.screen == s then
-         panel.ontop = not client.fullscreen
+         if client.fullscreen or client.maximize then
+            panel.ontop = false
+         else
+            panel.ontop = false
+         end
       end
    end
 
