@@ -27,8 +27,6 @@ local altkey = "Mod1"
 -- define module table
 local keys = {}
 
-local schedule = ''
-
 -- ===================================================================
 -- Movement Functions (Called by some keybinds)
 -- ===================================================================
