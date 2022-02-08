@@ -36,7 +36,7 @@ apps = {
    --screenshot = "gnome-screenshot -f ~/Pictures/scrsht/scr_shot_$(date +%m-%d_%H%M%S).png",
    screenshot = "gnome-screenshot --interactive",
    filebrowser = "nautilus",
-   schedule = "zathura '/home/archy/Documents/UCU/schedule.pdf'",
+   schedule = "zathura '/home/archy/Documents/UCU/Розклад(21-22)-І сем. 2 курс.pdf'",
 }
 
 -- define wireless and ethernet interface names for the network widget
@@ -99,8 +99,8 @@ awful.rules.rules = create_rules(keys.clientkeys, keys.clientbuttons)
 awful.layout.layouts = {
    awful.layout.suit.tile,
    awful.layout.suit.floating,
-   --awful.layout.suit.max,
-   --awful.layout.suit.magnifier,
+   awful.layout.suit.max,
+   awful.layout.suit.magnifier,
 
    --awful.layout.suit.tile.left,
    --awful.layout.suit.tile.bottom,

@@ -62,6 +62,7 @@ function rules.create(clientkeys, clientbuttons)
             placement = awful.placement.centered
          },
       },
+
       -- Floating clients.
       {
          rule_any = {
@@ -95,8 +96,6 @@ function rules.create(clientkeys, clientbuttons)
             class = { "qtfungera" },
          },
          properties = { floating = true, width = 950, height = 750 }
-
-
       },
 
       -- Fullscreen clients

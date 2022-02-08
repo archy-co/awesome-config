@@ -27,6 +27,8 @@ local altkey = "Mod1"
 -- define module table
 local keys = {}
 
+local schedule = ''
+
 -- ===================================================================
 -- Movement Functions (Called by some keybinds)
 -- ===================================================================
@@ -523,10 +525,6 @@ keys.globalkeys = gears.table.join(
       end,
       {description = "restore minimized", group = "client"}
    )
-)
-
-
-local globalkeys = awful.util.table.join(
 )
 
 
