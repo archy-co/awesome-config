@@ -35,7 +35,7 @@ end)
 
 apps = {
    terminal = "alacritty",
-   launcher = "rofi -normal-window -modi drun -show drun -theme ~/.config/rofi/rofi.rasi",
+   launcher = "rofi -location 8 -no-steal-focus -modi drun -show drun -theme ~/.config/rofi/rofi.rasi",
    browser = "firefox",
    lock = "i3lock",
    screenshot = "gnome-screenshot --interactive",
@@ -45,6 +45,7 @@ apps = {
 
 local run_on_start_up = {
    "picom --experimental-backends",
+   "viber",
    -- "redshift",
    -- "unclutter",
    "xset s on",
@@ -69,10 +70,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "blind/arrow/themeSciFi.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
+terminal = "awesome"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -116,7 +117,7 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.tile.left,
         awful.layout.suit.tile.bottom,
         awful.layout.suit.tile.top,
-        awful.layout.suit.fair,
+        -- awful.layout.suit.fair,
         awful.layout.suit.fair.horizontal,
         awful.layout.suit.spiral,
         awful.layout.suit.spiral.dwindle,
@@ -202,6 +203,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         }
     }
 
+
     -- Create a tasklist widget
     s.task_list = awful.widget.tasklist {
         screen  = s,
@@ -217,6 +219,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
     }
 
     -- Create the wibox
+    local battery_widget = require("Awesome-widgets.battery-widget.battery")
     s.wibox_wibar = awful.wibar {
         position = "top",
         screen   = s,
@@ -235,6 +238,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 keyboard_layout,
                 wibox.widget.systray(),
                 text_clock,
+                battery_widget(),
                 s.layout_box,
             },
         }

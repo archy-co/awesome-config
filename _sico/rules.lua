@@ -11,7 +11,6 @@ ruled.client.connect_signal("request::rules", function()
         properties = {
             titlebars_enabled = beautiful.titlebars_enabled,
             border_width = beautiful.border_width,
-            border_color = beautiful.border_normal,
             focus        = awful.client.focus.filter,
             raise        = true,
             keys         = clientkeys,
@@ -21,7 +20,6 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
 
-
     -- Floating clients.
     ruled.client.append_rule {
         id       = "floating",
@@ -29,12 +27,13 @@ ruled.client.connect_signal("request::rules", function()
             instance = { "copyq", "pinentry", "DTA" },
             type     = { "dialog" },
             class    = {
-                "Nm-connection-editor",
-                "gnome-screenshot", "Gnome-screenshot",
-                "zoom",
+                "Nm-connection-editor", "zoom",
                 "Blueman-manager", "Sxiv",
                 "Wpa_gui", "xtightvncviewer",
                 "gnome-screenshot", "Gnome-screenshot",
+                "pavucontrol", "Pavucontrol",
+                "org.gnome.Nautilus", "Org.gnome.Nautilus",
+                "gnome-control-center"
             },
             -- Note that the name property shown in xprop might be set slightly after creation of the client
             -- and the name shown there might not match defined rules here.
@@ -56,7 +55,16 @@ ruled.client.connect_signal("request::rules", function()
 
     -- Add titlebars to normal clients and dialogs
     ruled.client.append_rule {
-        id         = "titlebars",
+        id       = "firefox",
+        rule_any = {
+            class = { "Navigator", "firefox" },
+        },
+        properties = { maximized = false, floating = false }
+    }
+
+    -- Firefox
+    ruled.client.append_rule {
+        id         = "",
         rule_any   = { type = { "normal", "dialog" } },
         properties = { titlebars_enabled = true      }
     }
@@ -70,9 +78,55 @@ ruled.client.connect_signal("request::rules", function()
         properties = { titlebars_enabled = false }
     }
 
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- ruled.client.append_rule {
-    --     rule       = { class = "Firefox"     },
-    --     properties = { screen = 1, tag = "2" }
-    -- }
+    -- ROFI
+    ruled.client.append_rule {
+        rule_any = { name = { "rofi" } },
+        properties = { floating = true, titlebars_enabled = false, border_width = 0 },
+        callback = function(c)
+            awful.placement.left(c)
+        end
+    }
+
+    -- Fungera
+    ruled.client.append_rule {
+        rule_any = { class = { "qtfungera" } },
+        properties = { floating = true, width = 955, height = 800 }
+    }
+
+
+    ruled.client.append_rule {
+        id       = "teams",
+        rule_any = {
+            class = { "microsoft teams - preview", "Microsoft Teams - Preview" },
+        },
+        properties = {
+            tag = screen[1].tags[4],
+        }
+    }
+
+    ruled.client.append_rule {
+        id       = "minecraft",
+        rule_any = {
+            class = {
+                "sun-awt-X11-XFramePeer",
+                "org-tlauncher-tlauncher-rmo-TLauncher",
+                "Minecraft* 1.18.2", "Minecraft* 1.18.2"
+            },
+        },
+        properties = {
+            tag = screen[1].tags[5],
+        }
+    }
+
+    ruled.client.append_rule {
+        id       = "telegram",
+        rule_any = {
+            class = {
+                "telegram-desktop", "TelegramDesktop"
+            },
+        },
+        properties = {
+            tag = screen[1].tags[3],
+        }
+    }
 end)

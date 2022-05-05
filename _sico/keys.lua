@@ -12,7 +12,7 @@ local capslock = require("capslock")
 
 -- General Awesome keys
 awful.keyboard.append_global_keybindings({
-    awful.key({ modkey, altkey    }, "s",      hotkeys_popup.show_help,
+    awful.key({ modkey, altkey    }, "s", hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey, altkey    }, "w", function () main_menu:show() end,
               {description = "show main menu", group = "awesome"}),
@@ -31,7 +31,7 @@ awful.keyboard.append_global_keybindings({
               end,
               {description = "lua execute prompt", group = "awesome"}),
 
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn('alacritty') end,
               {description = "open a terminal", group = "launcher"}),
 
     awful.key({ modkey,           }, "r",     function () awful.screen.focused().prompt_box:run() end,
@@ -58,18 +58,31 @@ awful.keyboard.append_global_keybindings({
 
     capslock.key,
 
+
+    awful.key({ modkey,            }, "o",
+        function()
+           awful.spawn.with_shell("~/Downloads/picom/bin/picom-trans -10 --current", false)
+        end,
+        {description = "reduce 10% of opacity", group = "hotkeys"}),
+
+    awful.key({ modkey, "Shift"    }, "o",
+        function()
+           awful.spawn.with_shell("~/Downloads/picom/bin/picom-trans +10 --current", false)
+        end,
+        {description = "reduce 10% of opacity", group = "hotkeys"}),
+
     -- Brightness
     awful.key({}, "XF86MonBrightnessUp",
         function()
             awful.spawn("xbacklight -inc 10", false)
         end,
-        {description = "+10%", group = "hotkeys"}
+        {description = "brightness up", group = "hotkeys"}
     ),
     awful.key({}, "XF86MonBrightnessDown",
         function()
             awful.spawn("xbacklight -dec 10", false)
         end,
-        {description = "-10%", group = "hotkeys"}
+        {description = "brightness down", group = "hotkeys"}
     ),
 
     -- ALSA volume control
@@ -427,7 +440,6 @@ client.connect_signal("request::default_keybindings", function()
                 c:raise()
             end ,
             {description = "(un)maximize horizontally", group = "client"}),
-
 
         awful.key({modkey}, "q",
             function(c)
