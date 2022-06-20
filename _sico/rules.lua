@@ -59,7 +59,7 @@ ruled.client.connect_signal("request::rules", function()
         rule_any = {
             class = { "Navigator", "firefox" },
         },
-        properties = { maximized = false, floating = false }
+        properties = { }
     }
 
     -- Firefox
@@ -129,4 +129,16 @@ ruled.client.connect_signal("request::rules", function()
             tag = screen[1].tags[3],
         }
     }
+
+    --ruled.client.append_rule {
+        --id       = "sticky_viber",
+        --rule_any = {
+            --class = {
+                --"viber", "ViberPC"
+            --},
+        --},
+        --properties = {
+            --sticky = true
+        --}
+    --}
 end)

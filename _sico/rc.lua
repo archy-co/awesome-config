@@ -13,7 +13,6 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 -- Declarative object management
-local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
@@ -32,9 +31,9 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 -- }}}
 
-
 apps = {
    terminal = "alacritty",
+   editor = "nvim",
    launcher = "rofi -location 8 -no-steal-focus -modi drun -show drun -theme ~/.config/rofi/rofi.rasi",
    browser = "firefox",
    lock = "i3lock",
@@ -45,6 +44,7 @@ apps = {
 
 local run_on_start_up = {
    "picom --experimental-backends",
+   "killall conky; sleep 1; ~/blood-and-milk/Application.sh",
    "viber",
    -- "redshift",
    -- "unclutter",
@@ -74,8 +74,8 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "blind/arrow/themeSci
 
 -- This is used later as the default terminal and editor to run.
 terminal = "awesome"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
+editor = "nvim"
+editor_cmd = apps.terminal .. " -e " .. apps.editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -90,19 +90,32 @@ altkey = "Mod1"
 -- Create a launcher widget and a main menu
 awesome_menu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "manual", apps.terminal .. " -e man awesome" },
+   { "edit config", editor .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", function() awesome.quit() end },
 }
 
-main_menu = awful.menu({ items = { { "awesome", awesome_menu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+system_menu = {
+   { "poweroff", function()
+       awful.spawn.easy_async_with_shell("poweroff", function() end)
+   end },
+   { "reboot", function()
+       awful.spawn.easy_async_with_shell("reboot", function() end)
+   end }
+}
+
+main_menu = awful.menu({ items = {  { "awesome", awesome_menu, beautiful.awesome_icon },
+                                    { "system", system_menu },
+                                    { "terminal", apps.terminal },
+                                    { "rofi", apps.launcher}
                                   }
                         })
 
 awesome_launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = main_menu })
+
+-- awesome_launcher:connect_signal("mouse::enter", function() main_menu:toggle() end)
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -162,6 +175,14 @@ globalkeys = awful.util.table.join( capslock.key )
 -- Create a textclock widget
 text_clock = wibox.widget.textclock()
 
+local volume_widget = require('widgets.volume-widget.volume')
+local batteryarc_widget = require('widgets.batteryarc-widget.batteryarc')
+local battery_widget = require("widgets.battery-widget.battery-widget")
+local cpu_widget = require("widgets.cpu-widget.cpu-widget")
+local net_widgets = require("widgets.net_widgets")
+
+net_wireless = net_widgets.wireless({interface="wlan0"})
+
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
@@ -219,7 +240,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
     }
 
     -- Create the wibox
-    local battery_widget = require("Awesome-widgets.battery-widget.battery")
     s.wibox_wibar = awful.wibar {
         position = "top",
         screen   = s,
@@ -234,11 +254,23 @@ screen.connect_signal("request::desktop_decoration", function(s)
             s.task_list, -- Middle widget
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
+                battery_widget {
+                   ac_prefix = "  AC ",
+                   battery_prefix = "  Bat ",
+                   widget_font = "Deja Vu Sans Mono 9",
+                },
+                batteryarc_widget{
+                   show_current_level = true,
+                   arc_thickness = 2,
+                },
+                volume_widget{
+                   widget_type = "arc",
+                },
+                net_wireless,
                 capslock,
                 keyboard_layout,
                 wibox.widget.systray(),
                 text_clock,
-                battery_widget(),
                 s.layout_box,
             },
         }
@@ -256,10 +288,6 @@ awful.mouse.append_global_mousebindings({
 
 -- {{{ Key bindings
 require('keys')
--- }}}
-
--- {{{ Rules
-require('rules')
 -- }}}
 
 -- {{{ Titlebars
@@ -295,12 +323,15 @@ client.connect_signal("request::titlebars", function(c)
             awful.titlebar.widget.stickybutton   (c),
             awful.titlebar.widget.ontopbutton    (c),
             awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
+            layout = wibox.layout.fixed.horizontal(),
         },
         layout = wibox.layout.align.horizontal
     }
 end)
 -- }}}
+
+
+local ruled = require("ruled")
 
 -- {{{ Notifications
 
@@ -325,3 +356,8 @@ end)
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
+
+
+-- {{{ Rules
+require('rules')
+-- }}}

@@ -55,7 +55,6 @@ awful.keyboard.append_global_keybindings({
     awful.key({                    }, "Print", function() awful.spawn(apps.screenshot) end,
               {description = "screenshot", group = "launcher"}),
 
-
     capslock.key,
 
 
