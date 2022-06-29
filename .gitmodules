@@ -1,0 +1,3 @@
+[submodule "_sico/freedesktop"]
+	path = _sico/freedesktop
+	url = https://github.com/lcpz/awesome-freedesktop.git

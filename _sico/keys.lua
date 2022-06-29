@@ -49,11 +49,11 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey,            }, "d", function() awful.spawn(apps.launcher) end,
               {description = "program launcher", group = "launcher"}),
 
-    awful.key({ modkey,            }, "s", function() awful.spawn(apps.schedule) end,
-              {description = "schedule", group = "launcher"}),
-
     awful.key({                    }, "Print", function() awful.spawn(apps.screenshot) end,
               {description = "screenshot", group = "launcher"}),
+
+    awful.key({ modkey,           }, "s", function () awful.util.mymainmenu:show() end,
+              {description = "show main menu", group = "awesome"}),
 
     capslock.key,
 

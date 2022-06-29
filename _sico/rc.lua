@@ -44,8 +44,9 @@ apps = {
 
 local run_on_start_up = {
    "picom --experimental-backends",
-   "killall conky; sleep 1; ~/blood-and-milk/Application.sh",
+   -- "killall conky; sleep 1; ~/blood-and-milk/Application.sh",
    "viber",
+   "killall xgifwallpaper; sleep 1; xgifwallpaper Pictures/wallpapers/WindowsXPBoot.gif --scale FILL -d 7",
    -- "redshift",
    -- "unclutter",
    "xset s on",
@@ -356,6 +357,42 @@ end)
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
+
+
+
+
+
+local freedesktop = require("freedesktop")
+
+awful.util.mymainmenu = freedesktop.menu.build {
+    before = {
+        { "Awesome", myawesomemenu, beautiful.awesome_icon },
+        -- other triads can be put here
+    },
+    after = {
+        { "Open terminal", terminal },
+        -- other triads can be put here
+    }
+}
+
+-- Hide the menu when the mouse leaves it
+--[[
+awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function()
+    if not awful.util.mymainmenu.active_child or
+       (awful.util.mymainmenu.wibox ~= mouse.current_wibox and
+       awful.util.mymainmenu.active_child.wibox ~= mouse.current_wibox) then
+        awful.util.mymainmenu:hide()
+    else
+        awful.util.mymainmenu.active_child.wibox:connect_signal("mouse::leave",
+        function()
+            if awful.util.mymainmenu.wibox ~= mouse.current_wibox then
+                awful.util.mymainmenu:hide()
+            end
+        end)
+    end
+end)
+--]]
+
 
 
 -- {{{ Rules
