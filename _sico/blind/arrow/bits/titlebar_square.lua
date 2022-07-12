@@ -10,8 +10,8 @@ local active = theme.titlebar_icon_active or theme.titlebar_icon_fg or theme.fg_
 local height = theme.titlebar_height or 18
 local base_square = {}
 
-local color_normal = theme.titlebar_icon_inactive or theme.fg_normal
-local color_active = theme.titlebar_icon_active or theme.fg_focus
+local color_normal = theme.titlebar_icon_inactive or "#0351aa"
+local color_active = theme.titlebar_icon_active or "#66abf9"
 
 local square = nil
 

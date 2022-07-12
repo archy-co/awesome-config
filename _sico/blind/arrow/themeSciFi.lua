@@ -100,8 +100,8 @@ theme.fg_dock_2            = "#1889F2"
 -- Border
 theme.border = blind {
     width  = 2         ,
-    normal = "#000000" ,
-    focus  = "#0060a0" ,
+    normal = "#013660" ,
+    focus  = "#036aaf" ,
     marked = "#91231c" ,
 }
 theme.useless_gap = 5
@@ -120,9 +120,9 @@ theme.taglist = blind {
         hover     = hover_pat,
         selected  = wipat("#0D3685") : stripe("#05297F", nil, 2 , 4 ) : to_pattern(),
         used      = wipat("#00143B") : stripe("#052F77", nil, 1 , 2 ) : to_pattern(),
-        urgent    = wipat("#5B0000") : stripe("#300000", nil, 1 , 2 ) : to_pattern(),
+        urgent    = wipat("#990d0d") : stripe("#300000", nil, 1 , 2 ) : to_pattern(),
         changed   = wipat("#4D004D") : stripe("#210021", nil, 1 , 2 ) : to_pattern(),
-        empty     = wipat("#090B10") : stripe("#181E39", nil, 1 , 2 ) : to_pattern(),
+        empty     = wipat("#090B10") : stripe("#052F77", nil, 1 , 2 ) : to_pattern(),
         highlight = "#bbbb00"
     },
     fg = blind {
@@ -338,9 +338,9 @@ theme.tabbar = blind {
 }
 
 -- Titlebar
-loadfile(theme.path .."bits/titlebar_retro.lua")(theme,path)
+loadfile(theme.path .."bits/titlebar_square.lua")(theme,path)
 theme.titlebar_show_icon = true
-theme.titlebar_show_underlay = true
+theme.titlebar_show_underlay = false
 theme.titlebar_bg = "#07071c90"
 theme.titlebar_bg_title_active = wipat("#46206F"  ) : noise("#4A5D72", 0.25) : to_pattern()
 theme.titlebar_fg_title_active= "#000000"

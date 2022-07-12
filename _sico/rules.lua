@@ -42,6 +42,7 @@ ruled.client.connect_signal("request::rules", function()
                 "Steam Guard - Computer Authorization Required",
                 "zoom",
                 "Library",
+                "VMD Main", "Graphical Representations"
             },
             role    = {
                 "AlarmWindow",    -- Thunderbird's calendar.
@@ -105,12 +106,13 @@ ruled.client.connect_signal("request::rules", function()
     }
 
     ruled.client.append_rule {
-        id       = "minecraft",
+        id       = "games",
         rule_any = {
             class = {
                 "sun-awt-X11-XFramePeer",
                 "org-tlauncher-tlauncher-rmo-TLauncher",
-                "Minecraft* 1.18.2", "Minecraft* 1.18.2"
+                "Minecraft* 1.18.2", "Minecraft* 1.18.2",
+                "Albion-Online", "Albion Online Launcher"
             },
         },
         properties = {
