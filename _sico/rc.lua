@@ -46,7 +46,8 @@ local run_on_start_up = {
    "picom --experimental-backends",
    -- "killall conky; sleep 1; ~/blood-and-milk/Application.sh",
    "viber",
-   "killall xgifwallpaper; sleep 1; xgifwallpaper Pictures/wallpapers/WindowsXPBoot.gif --scale FILL -d 7",
+   -- "killall xgifwallpaper; sleep 1; xgifwallpaper Pictures/wallpapers/WindowsXPBoot.gif --scale FILL -d 7",
+   "feh --bg-fill ~/Pictures/wallpapers/eclipse.jpg",
    -- "redshift",
    -- "unclutter",
    "xset s on",
@@ -174,7 +175,7 @@ local capslock = require("capslock")
 globalkeys = awful.util.table.join( capslock.key )
 
 -- Create a textclock widget
-text_clock = wibox.widget.textclock()
+text_clock = wibox.widget.textclock(" %a %d %b | %T", 5)
 
 local volume_widget = require('widgets.volume-widget.volume')
 local batteryarc_widget = require('widgets.batteryarc-widget.batteryarc')

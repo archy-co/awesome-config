@@ -21,18 +21,21 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey, altkey    }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
     awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
+            function ()
+                awful.prompt.run {
                     prompt       = "Run Lua code: ",
                     textbox      = awful.screen.focused().prompt_box.widget,
                     exe_callback = awful.util.eval,
                     history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
+                }
+            end,
+            {description = "lua execute prompt", group = "awesome"}),
 
-    awful.key({ modkey,           }, "Return", function () awful.spawn('alacritty') end,
-              {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey,           }, "Return",
+            function ()
+                awful.spawn('alacritty')
+            end,
+            {description = "open a terminal", group = "launcher"}),
 
     awful.key({ modkey,           }, "r",     function () awful.screen.focused().prompt_box:run() end,
               {description = "run prompt", group = "launcher"}),
