@@ -133,9 +133,9 @@ function battery_widget:init(args)
     self.ac_prefix = args.ac_prefix or "AC: "
     self.battery_prefix = args.battery_prefix or "Bat: "
     self.percent_colors = args.percent_colors or args.limits or {
-        { 25, "red"   },
-        { 50, "orange"},
-        {999, "green" },
+        { 25, "#ed3d3d"},
+        { 50, "#eff45a"},
+        {999, "#86fc53"},
     }
 
     self.widget_text = args.widget_text or (

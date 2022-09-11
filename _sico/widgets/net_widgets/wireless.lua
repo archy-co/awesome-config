@@ -8,6 +8,10 @@ local module_path = (...):match ("(.+/)[^/]+$") or ""
 
 local theme = beautiful.get()
 
+local HOME_DIR = os.getenv("HOME")
+local PATH_TO_ICONS = HOME_DIR .. "/.config/awesome/images/icons/network/"
+local ICON_NAME_PREFIX = "wifi_abstract_"
+
 function dbg(message)
     naughty.notify({ preset = naughty.config.presets.normal,
                      title = "debug",
@@ -117,11 +121,20 @@ local function worker(args)
         if signal_level == nil then
             connected = false
             net_text:set_text(" N/A ")
-            net_icon:set_image(draw_signal(0))
+            net_icon:set_image(PATH_TO_ICONS .. "wifi_0.png")
         else
             connected = true
             net_text:set_text(string.format("%"..indent.."d%%", signal_level))
-            net_icon:set_image(draw_signal(signal_level))
+            -- net_icon:set_image(draw_signal(signal_level))
+            if signal_level > 85 then
+                net_icon:set_image(PATH_TO_ICONS .. ICON_NAME_PREFIX .. "3.png")
+            elseif signal_level > 60 then
+                net_icon:set_image(PATH_TO_ICONS .. ICON_NAME_PREFIX .. "2.png")
+            elseif signal_level > 20 then
+                net_icon:set_image(PATH_TO_ICONS .. ICON_NAME_PREFIX .. "1.png")
+            else
+                net_icon:set_image(PATH_TO_ICONS .. ICON_NAME_PREFIX .. "0.png")
+            end
         end
     end
 
