@@ -33,7 +33,7 @@ awful.keyboard.append_global_keybindings({
 
     awful.key({ modkey,           }, "Return",
             function ()
-                awful.spawn('alacritty')
+                awful.spawn(apps.terminal)
             end,
             {description = "open a terminal", group = "launcher"}),
 
@@ -54,6 +54,8 @@ awful.keyboard.append_global_keybindings({
 
     awful.key({                    }, "Print", function() awful.spawn(apps.screenshot) end,
               {description = "screenshot", group = "launcher"}),
+    awful.key({ "Ctrl"             }, "Print", function() awful.spawn(apps.screenshot_interactive) end,
+              {description = "interactive screenshot", group = "launcher"}),
 
     awful.key({ modkey,           }, "s", function () awful.util.mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),

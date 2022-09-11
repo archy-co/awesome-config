@@ -28,9 +28,12 @@ end
 
 theme.path = path
 
-theme.font = "Neuropolitical, Regular 9.5"
+-- theme.font = "Neuropolitical, Regular 9.5"
 -- theme.font = "Roboto, Medium 8"
 -- theme.font = "Radio Space, Regular 8"
+-- theme.font = "C64 Pro Mono, Regular 10"
+-- theme.font = "Torwelten, Mono 8"
+theme.font = "Bedstead Semi Condensed, Regular 10"
 
 local hover_pat = wipat("#1E3D5F") : stripe("#132946", nil, 10, 10) : noise("#4A5D72", 0.65) : to_pattern()
 
@@ -120,9 +123,9 @@ theme.taglist = blind {
         hover     = hover_pat,
         selected  = wipat("#0D3685") : stripe("#05297F", nil, 2 , 4 ) : to_pattern(),
         used      = wipat("#00143B") : stripe("#052F77", nil, 1 , 2 ) : to_pattern(),
-        urgent    = wipat("#990d0d") : stripe("#300000", nil, 1 , 2 ) : to_pattern(),
+        urgent    = wipat("#546b72") : stripe("#300000", nil, 1 , 2 ) : to_pattern(),
         changed   = wipat("#4D004D") : stripe("#210021", nil, 1 , 2 ) : to_pattern(),
-        empty     = wipat("#090B10") : stripe("#052F77", nil, 1 , 2 ) : to_pattern(),
+        empty     = wipat("#090B10") : stripe("#141a2b", nil, 1 , 2 ) : to_pattern(),
         highlight = "#bbbb00"
     },
     fg = blind {
@@ -139,16 +142,14 @@ theme.taglist = blind {
     item_border_width    = 2,
     item_border_color    = "#7AB4ED",
     icon_transformation  = taglist_transform,
-    default_item_margins = {
-        LEFT   = 0,
-        RIGHT  = 2,
-        TOP    = 0,
-        BOTTOM = 0,
-    }
+    spacing      = 5,
 }
 
 -- Tasklist
 theme.tasklist = blind {
+    shape_border_width = 2,
+    shape_border_color = '#131735',
+
     underlay_bg = blind {
         urgent    = "#ff0000",
         minimized = "#4F269C",
@@ -159,6 +160,7 @@ theme.tasklist = blind {
         image_selected = wipat("#00091A") : stripe("#04204F", nil, 1 , 2 ) : to_pattern(),
         urgent         = wipat("#5B0000") : stripe("#300000", nil, 1 , 2 ) : to_pattern(),
         focus          = wipat("#00143B") : stripe("#052F77", nil, 1 , 2 ) : to_pattern(),
+        normal         = "#090B0C",
         hover          = hover_pat,
     },
     fg_minimized        = "#985FEE",
@@ -173,7 +175,7 @@ theme.tasklist = blind {
     item_border_color = "#111111",
     item_style = radical.item.style.arrow_single,
 }
-theme.tasklist_bg = wipat("#22222A"): stripe(nil,default_heightnil, 1, 2) : to_pattern()
+theme.tasklist_bg = wipat("#22222A"): stripe(nil, default_height, nil, 1, 2) : to_pattern()
 
 -- Bottom menu
 theme.bottom_menu = blind {
@@ -341,7 +343,7 @@ theme.tabbar = blind {
 loadfile(theme.path .."bits/titlebar_square.lua")(theme,path)
 theme.titlebar_show_icon = true
 theme.titlebar_show_underlay = false
-theme.titlebar_bg = "#07071c90"
+theme.titlebar_bg = "#07071c"
 theme.titlebar_bg_title_active = wipat("#46206F"  ) : noise("#4A5D72", 0.25) : to_pattern()
 theme.titlebar_fg_title_active= "#000000"
 theme.titlebar_bg_title_normal = wipat("#081B37"  ) : noise("#4A5D72", 0.25) : to_pattern()
@@ -356,14 +358,14 @@ loadfile(theme.path .."bits/textbox/glow.lua")(theme,path)
 require( "chopped.arrow" )
 
 -- The wallpaper
-local wall_pat = pattern2("#000000") : grid("#6DA1D422", 10)  : grid("#6DA1D455", 50, 2) : to_pattern()
-for s=1, capi.screen.count() do
-    local geo = capi.screen[s].geometry
-    local img = cairo.ImageSurface.create(cairo.Format.ARGB32, geo.width, geo.height)
-    local cr  = cairo.Context(img)
-    cr:set_source(wall_pat)
-    cr:paint()
-    wall.centered(img, s)
-end
+--local wall_pat = pattern2("#000000") : grid("#6DA1D422", 10)  : grid("#6DA1D455", 50, 2) : to_pattern()
+--for s=1, capi.screen.count() do
+    --local geo = capi.screen[s].geometry
+    --local img = cairo.ImageSurface.create(cairo.Format.ARGB32, geo.width, geo.height)
+    --local cr  = cairo.Context(img)
+    --cr:set_source(wall_pat)
+    --cr:paint()
+    --wall.centered(img, s)
+--end
 
 return theme

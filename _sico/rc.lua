@@ -19,6 +19,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+local dpi = beautiful.xresources.apply_dpi
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -37,9 +39,11 @@ apps = {
    launcher = "rofi -location 8 -no-steal-focus -modi drun -show drun -theme ~/.config/rofi/rofi.rasi",
    browser = "firefox",
    lock = "i3lock",
-   screenshot = "gnome-screenshot --interactive",
+   screenshot = "gnome-screenshot",
+   screenshot_interactive = "gnome-screenshot --interactive",
    filebrowser = "nautilus",
    schedule = "zathura '~/schedule.pdf'",
+   bluetooth_manager = "blueman-manager"
 }
 
 local run_on_start_up = {
@@ -54,7 +58,8 @@ local run_on_start_up = {
    "xset s 1800 1",
    "xss-lock -n ~/.config/awesome/transfer-sleep-lock-generic-delay.sh",
    "setxkbmap -layout us,ua,ca -option grp:alt_shift_toggle",
-   "batsignal -w 20 -c 11 -d 5 -b"
+   "batsignal -w 20 -c 11 -d 5 -b",
+   "blueman-applet"
 }
 
 -- Run all the apps listed in run_on_start_up
@@ -75,7 +80,7 @@ end
 beautiful.init(gears.filesystem.get_configuration_dir() .. "blind/arrow/themeSciFi.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "awesome"
+terminal = "alacritty"
 editor = "nvim"
 editor_cmd = apps.terminal .. " -e " .. apps.editor
 
@@ -90,7 +95,7 @@ altkey = "Mod1"
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-awesome_menu = {
+local awesome_menu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
    { "manual", apps.terminal .. " -e man awesome" },
    { "edit config", editor .. " " .. awesome.conffile },
@@ -98,7 +103,7 @@ awesome_menu = {
    { "quit", function() awesome.quit() end },
 }
 
-system_menu = {
+local system_menu = {
    { "poweroff", function()
        awful.spawn.easy_async_with_shell("poweroff", function() end)
    end },
@@ -107,14 +112,14 @@ system_menu = {
    end }
 }
 
-main_menu = awful.menu({ items = {  { "awesome", awesome_menu, beautiful.awesome_icon },
+local main_menu = awful.menu({ items = {  { "awesome", awesome_menu, beautiful.awesome_icon },
                                     { "system", system_menu },
                                     { "terminal", apps.terminal },
                                     { "rofi", apps.launcher}
                                   }
                         })
 
-awesome_launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
+local awesome_launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = main_menu })
 
 -- awesome_launcher:connect_signal("mouse::enter", function() main_menu:toggle() end)
@@ -146,6 +151,10 @@ end)
 
 
 -- {{{ Wallpaper
+-- -- Either
+gears.wallpaper.maximized("~/Pictures/wallpapers/eclipse.jpg")
+-- gears.wallpaper.maximized(gears.filesystem.get_configuration_dir() .. "/wallpaper/mirage.png")
+-- -- Or
 --wallpaper_image = "~/.config/awesome/images/wallpaper.jpg"
 --screen.connect_signal("request::wallpaper", function(s)
     --awful.wallpaper {
@@ -187,7 +196,7 @@ net_wireless = net_widgets.wireless({interface="wlan0"})
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    -- awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.prompt_box = awful.widget.prompt()
@@ -238,20 +247,49 @@ screen.connect_signal("request::desktop_decoration", function(s)
             awful.button({ }, 3, function() awful.menu.client_list { theme = { width = 250 } } end),
             awful.button({ }, 4, function() awful.client.focus.byidx(-1) end),
             awful.button({ }, 5, function() awful.client.focus.byidx( 1) end),
-        }
+        },
+
+        layout   = {
+            spacing = 1,
+            layout  = wibox.layout.flex.horizontal
+        },
+
+        widget_template = {
+            {
+                {
+                    {
+                        {
+                            id     = 'icon_role',
+                            widget = wibox.widget.imagebox,
+                        },
+                        margins = 2,
+                        widget  = wibox.container.margin,
+                    },
+                    {
+                        id     = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
+                },
+                left  = 5,
+                right = 5,
+                widget = wibox.container.margin
+            },
+            id     = 'background_role',
+            widget = wibox.container.background,
+        },
     }
 
     -- Create the wibox
     s.wibox_wibar = awful.wibar {
         position = "top",
+        bg = "#090B0C",
         screen   = s,
         widget   = {
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
-                awesome_launcher,
-                s.tag_list,
-                s.prompt_box,
+                wibox.container.margin(s.prompt_box, dpi(60), dpi(0), dpi(0), dpi(0)),
             },
             s.task_list, -- Middle widget
             { -- Right widgets
@@ -272,8 +310,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 capslock,
                 keyboard_layout,
                 wibox.widget.systray(),
-                text_clock,
-                s.layout_box,
+                wibox.container.margin(text_clock, dpi(0), dpi(5), dpi(0), dpi(0)),
+                -- s.layout_box,
             },
         }
     }
@@ -358,6 +396,74 @@ end)
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
+
+
+
+
+
+-- Import components
+require("widgets.volume-adjust")
+
+local left_panel = require("widgets.left-panel")
+
+local icon_dir = gears.filesystem.get_configuration_dir() .. "images/icons/tags/"
+
+awful.screen.connect_for_each_screen(function(s)
+    for i = 1, 7, 1 do
+        awful.tag.add(i, {
+            icon = icon_dir .. i .. ".png",
+            icon_only = true,
+            layout = awful.layout.suit.tile,
+            screen = s,
+            selected = i == 1
+        })
+    end
+
+    -- Only add the left panel on the primary screen
+    if s.index == 1 then
+        left_panel.create(s)
+    end
+end)
+
+-- set initally selected tag to be active
+local initial_tag = awful.screen.focused().selected_tag
+awful.tag.seticon(icon_dir .. initial_tag.name .. ".png", initial_tag)
+
+-- updates tag icons
+local function update_tag_icons()
+    -- get a list of all tags
+    local atags = awful.screen.focused().tags
+
+    -- update each tag icon
+    for i, t in ipairs(atags) do
+        -- don't update active tag icon
+        if t == awful.screen.focused().selected_tag then
+            goto continue
+        end
+        -- if the tag has clients use busy icon
+        for _ in pairs(t:clients()) do
+            awful.tag.seticon(icon_dir .. t.name .. ".png", t)
+            goto continue
+        end
+        -- if the tag has no clients use regular inactive icon
+        awful.tag.seticon(icon_dir .. t.name .. "-inactive.png", t)
+
+        ::continue::
+    end
+end
+
+-- Update tag icons when tag is switched
+tag.connect_signal("property::selected", function(t)
+    -- set newly selected tag icon as active
+    awful.tag.seticon(icon_dir .. t.name .. ".png", t)
+    update_tag_icons()
+end)
+
+-- Update tag icons when a client is moved to a new tag
+tag.connect_signal("tagged", function(c)
+    update_tag_icons()
+end)
+
 
 
 
