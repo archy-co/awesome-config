@@ -133,6 +133,15 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
 
+    -- Floating, no titlebar
+    ruled.client.append_rule {
+        id       = "Telegram Media viewer",
+        rule_any = {
+            name = { "Media viewer" },
+        },
+        properties = { maximized = true, fullscreen = false, titlebars_enabled = false }
+    }
+
     --ruled.client.append_rule {
         --id       = "sticky_viber",
         --rule_any = {
