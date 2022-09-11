@@ -579,7 +579,8 @@ keys.clientkeys = gears.table.join(
    -- Maximize
    awful.key({modkey}, "m",
       function(c)
-         c.fullscreen = not c.fullscreen
+         c.maximized = not c.maximized
+         c:raise()
       end,
       {description = "toggle fullscreen", group = "client"}
    ),
@@ -603,8 +604,7 @@ keys.clientkeys = gears.table.join(
    -- Fullscreen
    awful.key({modkey}, "f",
       function(c)
-         c.maximized = not c.maximized
-         c:raise()
+         c.fullscreen = not c.fullscreen
       end,
       {description = "(un)maximize", group = "client"}
    )
